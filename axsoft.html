@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AxSoft – Soporte & Tecnología</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg:       #0a0e1a;
+      --surface:  #111827;
+      --card:     #151d2e;
+      --border:   #1e2d47;
+      --accent:   #00c2ff;
+      --accent2:  #00ffa3;
+      --text:     #e8f0fe;
+      --muted:    #6b7e9f;
+      --wa:       #25D366;
+      --wa-hover: #1ebe5c;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── GRID NOISE BACKGROUND ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0;
+      background-image:
+        radial-gradient(ellipse 80% 60% at 20% 10%, rgba(0,194,255,.08) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 80% 80%, rgba(0,255,163,.06) 0%, transparent 55%),
+        repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(255,255,255,.02) 39px, rgba(255,255,255,.02) 40px),
+        repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(255,255,255,.02) 39px, rgba(255,255,255,.02) 40px);
+      pointer-events: none;
+    }
+
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+
+    /* ── NAV ── */
+    nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 22px 0; border-bottom: 1px solid var(--border);
+    }
+    .logo {
+      font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.7rem;
+      letter-spacing: -.03em;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .logo span { -webkit-text-fill-color: var(--text); }
+    nav a {
+      color: var(--muted); text-decoration: none; font-size: .9rem;
+      transition: color .2s;
+    }
+    nav a:hover { color: var(--accent); }
+
+    /* ── HERO ── */
+    .hero {
+      padding: 90px 0 70px;
+      display: flex; flex-direction: column; align-items: center; text-align: center; gap: 24px;
+    }
+    .badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(0,194,255,.1); border: 1px solid rgba(0,194,255,.25);
+      border-radius: 100px; padding: 6px 16px; font-size: .8rem; color: var(--accent);
+      letter-spacing: .06em; text-transform: uppercase; font-weight: 500;
+    }
+    .badge::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); animation: pulse 1.8s ease infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+    h1 {
+      font-family: 'Syne', sans-serif; font-size: clamp(2.4rem, 6vw, 4rem);
+      font-weight: 800; line-height: 1.08; letter-spacing: -.04em;
+      max-width: 750px;
+    }
+    h1 em {
+      font-style: normal;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .hero p { color: var(--muted); max-width: 540px; font-size: 1.05rem; line-height: 1.65; }
+
+    /* ── SECTION TITLE ── */
+    .section-head { text-align: center; margin-bottom: 48px; }
+    .section-head h2 {
+      font-family: 'Syne', sans-serif; font-size: clamp(1.6rem, 4vw, 2.4rem);
+      font-weight: 700; letter-spacing: -.03em; margin-bottom: 10px;
+    }
+    .section-head p { color: var(--muted); font-size: .95rem; }
+
+    /* ── SERVICES GRID ── */
+    section.services { padding: 80px 0; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+      gap: 20px;
+    }
+
+    /* ── CARD ── */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      display: flex; flex-direction: column; gap: 16px;
+      transition: border-color .3s, transform .3s, box-shadow .3s;
+      position: relative; overflow: hidden;
+    }
+    .card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      transform: scaleX(0); transform-origin: left;
+      transition: transform .4s ease;
+    }
+    .card:hover { border-color: rgba(0,194,255,.35); transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,.4); }
+    .card:hover::before { transform: scaleX(1); }
+
+    .card-icon {
+      width: 48px; height: 48px; border-radius: 12px;
+      background: rgba(0,194,255,.1); border: 1px solid rgba(0,194,255,.2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem;
+    }
+    .card h3 { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700; }
+    .card p { color: var(--muted); font-size: .88rem; line-height: 1.6; flex: 1; }
+
+    .price-row {
+      display: flex; align-items: center; justify-content: space-between;
+      background: rgba(255,255,255,.03); border: 1px solid var(--border);
+      border-radius: 10px; padding: 12px 16px;
+    }
+    .price-label { font-size: .75rem; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+    .price { font-family: 'Syne', sans-serif; font-size: 1.4rem; font-weight: 800; color: var(--accent2); }
+    .price small { font-size: .65rem; color: var(--muted); font-weight: 400; }
+
+    /* ── CTA BUTTONS ── */
+    .btn-wa {
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      width: 100%; padding: 13px;
+      background: var(--wa); color: #fff; border: none; border-radius: 10px;
+      font-family: 'DM Sans', sans-serif; font-size: .92rem; font-weight: 600;
+      cursor: pointer; text-decoration: none;
+      transition: background .2s, transform .15s, box-shadow .2s;
+    }
+    .btn-wa:hover { background: var(--wa-hover); transform: scale(1.02); box-shadow: 0 8px 24px rgba(37,211,102,.35); }
+    .btn-wa svg { width: 20px; height: 20px; fill: #fff; flex-shrink: 0; }
+
+    /* ── QUOTE FORM ── */
+    section.quote { padding: 80px 0; }
+    .quote-box {
+      background: var(--card); border: 1px solid var(--border); border-radius: 20px;
+      padding: 48px; max-width: 700px; margin: 0 auto;
+    }
+    .quote-box h2 { font-family: 'Syne', sans-serif; font-size: 1.8rem; font-weight: 700; margin-bottom: 6px; }
+    .quote-box > p { color: var(--muted); margin-bottom: 28px; }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .form-group { display: flex; flex-direction: column; gap: 7px; }
+    .form-group.full { grid-column: 1/-1; }
+    label { font-size: .8rem; color: var(--muted); letter-spacing: .05em; text-transform: uppercase; }
+    input, select, textarea {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 9px;
+      color: var(--text); padding: 12px 14px; font-family: 'DM Sans', sans-serif; font-size: .93rem;
+      outline: none; transition: border-color .2s;
+      width: 100%;
+    }
+    input:focus, select:focus, textarea:focus { border-color: var(--accent); }
+    select option { background: var(--surface); }
+    textarea { resize: vertical; min-height: 90px; }
+
+    .btn-submit {
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      width: 100%; margin-top: 20px; padding: 15px;
+      background: var(--wa); color: #fff; border: none; border-radius: 10px;
+      font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700;
+      cursor: pointer; transition: background .2s, transform .15s, box-shadow .2s;
+    }
+    .btn-submit:hover { background: var(--wa-hover); transform: scale(1.015); box-shadow: 0 10px 28px rgba(37,211,102,.4); }
+    .btn-submit svg { width: 22px; height: 22px; fill: #fff; }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border); padding: 32px 0;
+      display: flex; flex-direction: column; align-items: center; gap: 10px;
+      text-align: center; color: var(--muted); font-size: .82rem;
+    }
+    footer strong { color: var(--text); }
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:600px) {
+      .form-row { grid-template-columns: 1fr; }
+      .quote-box { padding: 28px 20px; }
+    }
+
+    /* ── ANIMATIONS ── */
+    .fade-in { opacity: 0; transform: translateY(24px); animation: fadeIn .7s ease forwards; }
+    @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
+    .card:nth-child(1){ animation-delay:.05s }
+    .card:nth-child(2){ animation-delay:.12s }
+    .card:nth-child(3){ animation-delay:.19s }
+    .card:nth-child(4){ animation-delay:.26s }
+    .card:nth-child(5){ animation-delay:.33s }
+    .card:nth-child(6){ animation-delay:.40s }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<div class="wrap">
+  <nav>
+    <div class="logo">Ax<span>Soft</span></div>
+    <nav style="display:flex;gap:28px;border:none;padding:0">
+      <a href="#servicios">Servicios</a>
+      <a href="#cotizar">Cotizar</a>
+    </nav>
+  </nav>
+</div>
+
+<!-- ── HERO ── -->
+<div class="wrap">
+  <div class="hero">
+    <span class="badge">Soporte Tecnológico Profesional</span>
+    <h1>Soluciones IT para tu <em>empresa</em>, sin complicaciones</h1>
+    <p>Ofrecemos soporte técnico especializado en configuración, instalación y mantenimiento. Recibe tu cotización directo por WhatsApp.</p>
+  </div>
+</div>
+
+<!-- ── SERVICES ── -->
+<section class="services" id="servicios">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Nuestros Servicios</h2>
+      <p>Haz clic en "Consultar" para recibir información y precio al instante vía WhatsApp</p>
+    </div>
+    <div class="grid">
+
+      <!-- 1 -->
+      <div class="card fade-in">
+        <div class="card-icon">☕</div>
+        <h3>Configuración de Java para IDSE</h3>
+        <p>Instalación y configuración completa del entorno Java requerido por el sistema IDSE del IMSS. Compatibilidad con navegadores y firma electrónica.</p>
+        <div class="price-row">
+          <div>
+            <div class="price-label">Desde</div>
+            <div class="price">$350 <small>MXN</small></div>
+          </div>
+        </div>
+        <a class="btn-wa" href="https://wa.me/524421698435?text=Hola%20AxSoft%2C%20me%20interesa%20el%20servicio%20de%20*Configuraci%C3%B3n%20de%20Java%20para%20IDSE*.%20%C2%BFPueden%20darme%20una%20cotizaci%C3%B3n%3F" target="_blank">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Consultar por WhatsApp
+        </a>
+      </div>
+
+      <!-- 2 -->
+      <div class="card fade-in">
+        <div class="card-icon">📧</div>
+        <h3>Soporte a Correos Corporativos</h3>
+        <p>Configuración de cuentas en Outlook, Thunderbird o clientes móviles. Resolución de errores SMTP/IMAP, migración y recuperación de buzones.</p>
+        <div class="price-row">
+          <div>
+            <div class="price-label">Desde</div>
+            <div class="price">$300 <small>MXN</small></div>
+          </div>
+        </div>
+        <a class="btn-wa" href="https://wa.me/524421698435?text=Hola%20AxSoft%2C%20me%20interesa%20el%20servicio%20de%20*Soporte%20a%20Correos%20Corporativos*.%20%C2%BFPueden%20darme%20una%20cotizaci%C3%B3n%3F" target="_blank">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Consultar por WhatsApp
+        </a>
+      </div>
+
+      <!-- 3 -->
+      <div class="card fade-in">
+        <div class="card-icon">💼</div>
+        <h3>Instalación de Office</h3>
+        <p>Instalación limpia de Microsoft Office 365 o versiones perpetuas. Activación de licencias, configuración de OneDrive y soporte post-instalación.</p>
+        <div class="price-row">
+          <div>
+            <div class="price-label">Desde</div>
+            <div class="price">$400 <small>MXN</small></div>
+          </div>
+        </div>
+        <a class="btn-wa" href="https://wa.me/524421698435?text=Hola%20AxSoft%2C%20me%20interesa%20el%20servicio%20de%20*Instalaci%C3%B3n%20de%20Office*.%20%C2%BFPueden%20darme%20una%20cotizaci%C3%B3n%3F" target="_blank">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Consultar por WhatsApp
+        </a>
+      </div>
+
+      <!-- 4 -->
+      <div class="card fade-in">
+        <div class="card-icon">🪟</div>
+        <h3>Soporte a Windows</h3>
+        <p>Diagnóstico y reparación de Windows 10/11. Eliminación de virus, optimización del sistema, actualización de drivers y recuperación de archivos.</p>
+        <div class="price-row">
+          <div>
+            <div class="price-label">Desde</div>
+            <div class="price">$450 <small>MXN</small></div>
+          </div>
+        </div>
+        <a class="btn-wa" href="https://wa.me/524421698435?text=Hola%20AxSoft%2C%20me%20interesa%20el%20servicio%20de%20*Soporte%20a%20Windows*.%20%C2%BFPueden%20darme%20una%20cotizaci%C3%B3n%3F" target="_blank">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Consultar por WhatsApp
+        </a>
+      </div>
+
+      <!-- 5 -->
+      <div class="card fade-in">
+        <div class="card-icon">🔒</div>
+        <h3>Configuración de VPN</h3>
+        <p>Configuración de VPN empresarial o personal (OpenVPN, WireGuard, Cisco AnyConnect). Acceso remoto seguro para trabajo en oficina o desde casa.</p>
+        <div class="price-row">
+          <div>
+            <div class="price-label">Desde</div>
+            <div class="price">$500 <small>MXN</small></div>
+          </div>
+        </div>
+        <a class="btn-wa" href="https://wa.me/524421698435?text=Hola%20AxSoft%2C%20me%20interesa%20el%20servicio%20de%20*Configuraci%C3%B3n%20de%20VPN*.%20%C2%BFPueden%20darme%20una%20cotizaci%C3%B3n%3F" target="_blank">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Consultar por WhatsApp
+        </a>
+      </div>
+
+      <!-- 6 -->
+      <div class="card fade-in">
+        <div class="card-icon">🖨️</div>
+        <h3>Configuración de Impresoras en Red</h3>
+        <p>Instalación y configuración de impresoras compartidas en red LAN/WiFi. Drivers, colas de impresión, permisos por usuario y soporte multiequipo.</p>
+        <div class="price-row">
+          <div>
+            <div class="price-label">Desde</div>
+            <div class="price">$380 <small>MXN</small></div>
+          </div>
+        </div>
+        <a class="btn-wa" href="https://wa.me/524421698435?text=Hola%20AxSoft%2C%20me%20interesa%20el%20servicio%20de%20*Configuraci%C3%B3n%20de%20Impresoras%20en%20Red*.%20%C2%BFPueden%20darme%20una%20cotizaci%C3%B3n%3F" target="_blank">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Consultar por WhatsApp
+        </a>
+      </div>
+
+    </div><!-- .grid -->
+  </div>
+</section>
+
+<!-- ── QUOTE FORM ── -->
+<section class="quote" id="cotizar">
+  <div class="wrap">
+    <div class="quote-box">
+      <h2>Solicitar Cotización</h2>
+      <p>Llena el formulario y te enviamos la cotización directamente por WhatsApp en minutos.</p>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nombre</label>
+          <input id="nombre" type="text" placeholder="Tu nombre completo"/>
+        </div>
+        <div class="form-group">
+          <label>Teléfono / WhatsApp</label>
+          <input id="telefono" type="tel" placeholder="ej. 4421234567"/>
+        </div>
+        <div class="form-group">
+          <label>Empresa (opcional)</label>
+          <input id="empresa" type="text" placeholder="Nombre de tu empresa"/>
+        </div>
+        <div class="form-group">
+          <label>Servicio de interés</label>
+          <select id="servicio">
+            <option value="">— Selecciona un servicio —</option>
+            <option>Configuración de Java para IDSE</option>
+            <option>Soporte a Correos Corporativos</option>
+            <option>Instalación de Office</option>
+            <option>Soporte a Windows</option>
+            <option>Configuración de VPN</option>
+            <option>Configuración de Impresoras en Red</option>
+            <option>Múltiples servicios</option>
+          </select>
+        </div>
+        <div class="form-group full">
+          <label>Descripción del problema o requerimiento</label>
+          <textarea id="descripcion" placeholder="Cuéntanos brevemente qué necesitas..."></textarea>
+        </div>
+      </div>
+
+      <button class="btn-submit" onclick="enviarCotizacion()">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Enviar cotización por WhatsApp
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<div class="wrap">
+  <footer>
+    <strong>AxSoft</strong>
+    <span>Soporte técnico profesional · Querétaro, México</span>
+    <span>WhatsApp: <a href="https://wa.me/524421698435" style="color:var(--accent);text-decoration:none">442 169 8435</a></span>
+    <span style="margin-top:6px">© 2025 AxSoft – Todos los derechos reservados</span>
+  </footer>
+</div>
+
+<script>
+  function enviarCotizacion() {
+    const nombre      = document.getElementById('nombre').value.trim();
+    const telefono    = document.getElementById('telefono').value.trim();
+    const empresa     = document.getElementById('empresa').value.trim();
+    const servicio    = document.getElementById('servicio').value;
+    const descripcion = document.getElementById('descripcion').value.trim();
+
+    if (!nombre || !servicio) {
+      alert('Por favor ingresa tu nombre y selecciona un servicio.');
+      return;
+    }
+
+    let msg = `Hola AxSoft, me gustaría solicitar una *cotización*:\n\n`;
+    msg += `👤 *Nombre:* ${nombre}\n`;
+    if (telefono)    msg += `📱 *Teléfono:* ${telefono}\n`;
+    if (empresa)     msg += `🏢 *Empresa:* ${empresa}\n`;
+    msg += `🛠️ *Servicio:* ${servicio}\n`;
+    if (descripcion) msg += `📝 *Descripción:* ${descripcion}\n`;
+    msg += `\n¿Cuál es el costo y disponibilidad?`;
+
+    const url = `https://wa.me/524421698435?text=${encodeURIComponent(msg)}`;
+    window.open(url, '_blank');
+  }
+
+  // Intersection Observer for fade-in cards
+  const cards = document.querySelectorAll('.card');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.style.opacity = 1; e.target.style.transform = 'translateY(0)'; }
+    });
+  }, { threshold: 0.1 });
+  cards.forEach(c => observer.observe(c));
+</script>
+</body>
+</html>
